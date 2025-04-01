@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:isolate';
 
 import 'package:camera_bg/camera.dart';
 import 'package:camera_example/first_task_handler.dart';
@@ -21,11 +19,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ReceivePort? _receivePort;
   CameraController? _cameraController;
 
   Future<void> _initForegroundTask() async {
-    await FlutterForegroundTask.init(
+    FlutterForegroundTask.init(
       androidNotificationOptions: AndroidNotificationOptions(
         channelId: 'notification_channel_id',
         channelName: 'Foreground Notification',
@@ -33,26 +30,27 @@ class _HomePageState extends State<HomePage> {
             'This notification appears when the foreground service is running.',
         channelImportance: NotificationChannelImportance.LOW,
         priority: NotificationPriority.LOW,
-        iconData: const NotificationIconData(
-          resType: ResourceType.mipmap,
-          resPrefix: ResourcePrefix.ic,
-          name: 'launcher',
-        ),
-        buttons: [
-          const NotificationButton(id: 'sendButton', text: 'Send'),
-          const NotificationButton(id: 'testButton', text: 'Test'),
-        ],
+
+        // iconData: const NotificationIconData(
+        //   resType: ResourceType.mipmap,
+        //   resPrefix: ResourcePrefix.ic,
+        //   name: 'launcher',
+        // ),
+        // Not avaivalbe
+        // buttons: [
+        //   const NotificationButton(id: 'sendButton', text: 'Send'),
+        //   const NotificationButton(id: 'testButton', text: 'Test'),
+        // ],
       ),
       iosNotificationOptions: const IOSNotificationOptions(
         showNotification: true,
         playSound: false,
       ),
-      foregroundTaskOptions: const ForegroundTaskOptions(
-        interval: 5000,
+      foregroundTaskOptions: ForegroundTaskOptions(
+        eventAction: ForegroundTaskEventAction.repeat(5000),
         autoRunOnBoot: true,
         allowWifiLock: true,
       ),
-      printDevLog: true,
     );
   }
 
@@ -60,9 +58,10 @@ class _HomePageState extends State<HomePage> {
     // You can save data using the saveData function.
     await FlutterForegroundTask.saveData(key: 'customData', value: 'hello');
 
-    ReceivePort? receivePort;
+    late ServiceRequestResult? receivePort;
     if (await FlutterForegroundTask.isRunningService) {
-      receivePort = await FlutterForegroundTask.restartService();
+      final result = await FlutterForegroundTask.restartService();
+      receivePort = result;
     } else {
       receivePort = await FlutterForegroundTask.startService(
         notificationTitle: 'Foreground Service is running',
@@ -72,18 +71,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (receivePort != null) {
-      _receivePort = receivePort;
-      _receivePort?.listen((message) {
-        log("$message");
-
-        log("message recieved: $message");
-        if (message is DateTime) {
-          log('receive timestamp: $message');
-        } else if (message is int) {
-          log('receive updateCount: $message');
-        }
-      });
-      // initCamera();
       return true;
     }
 
@@ -92,7 +79,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> _stopForegroundTask() async {
     _cameraController?.dispose();
-    return await FlutterForegroundTask.stopService();
+    final result = await FlutterForegroundTask.stopService();
+    return result is ServiceRequestSuccess;
   }
 
   @override
@@ -103,7 +91,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    _receivePort?.close();
     super.dispose();
   }
 
@@ -146,7 +133,6 @@ class _HomePageState extends State<HomePage> {
       child: ElevatedButton(
         child: Text(text),
         onPressed: onPressed,
-        style: ElevatedButton.styleFrom(primary: const Color(0xFF587C8F)),
       ),
     );
   }

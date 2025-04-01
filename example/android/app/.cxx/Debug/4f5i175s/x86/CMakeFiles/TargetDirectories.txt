@@ -1,0 +1,2 @@
+/Users/ladmin/Desktop/camera-android/example/android/app/.cxx/Debug/4f5i175s/x86/CMakeFiles/edit_cache.dir
+/Users/ladmin/Desktop/camera-android/example/android/app/.cxx/Debug/4f5i175s/x86/CMakeFiles/rebuild_cache.dir

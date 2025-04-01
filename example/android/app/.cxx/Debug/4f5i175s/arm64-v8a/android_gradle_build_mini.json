@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/ladmin/Documents/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/ladmin/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/ladmin/Desktop/camera-android/example/android/app/.cxx/Debug/4f5i175s/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/ladmin/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/ladmin/Desktop/camera-android/example/android/app/.cxx/Debug/4f5i175s/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

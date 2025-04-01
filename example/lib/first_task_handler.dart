@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'dart:isolate';
-
-import 'package:bg_launcher/bg_launcher.dart';
 import 'package:camera_bg/camera.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
@@ -46,36 +43,46 @@ class FirstTaskHandler extends TaskHandler {
     _cameraController.startImageStream((img) async {
       currentUseTime = DateTime.now();
       log("Image captures: ${img.width} x ${img.height}");
-      // FlutterForegroundTask.updateService(
-      //     notificationText:
-      //         "Image Captured: ${img.sensorExposureTime} at ${DateTime.now()}");
     });
     Timer.periodic(const Duration(seconds: 5), (timer) async {
       log('Is Camera Avaialble: ${await _cameraController.isCameraAvailable()}');
     });
   }
 
-  @override
-  Future<void> onStart(DateTime timestamp, SendPort? sendPort) async {
-    initCamera();
-    // checkIfCameraInUse();
-    // Timer.periodic(const Duration(seconds: 5), (timer) async {
-    //   BgLauncher.bringAppToForeground(
-    //       action: 'REQUEST_EXERCICE', extras: 'FBI OPEN UP');
-    // });
-  }
+  // @override
+  // Future<void> onStart(DateTime timestamp, SendPort? sendPort) async {
+  //   initCamera();
+  //   // checkIfCameraInUse();
+  //   // Timer.periodic(const Duration(seconds: 5), (timer) async {
+  //   //   BgLauncher.bringAppToForeground(
+  //   //       action: 'REQUEST_EXERCICE', extras: 'FBI OPEN UP');
+  //   // });
+  // }
+
+  // @override
+  // Future<void> onEvent(DateTime timestamp, SendPort? sendPort) async {}
+
+  // @override
+  // Future<void> onDestroy(DateTime timestamp, SendPort? sendPort) async {
+  //   await FlutterForegroundTask.clearAllData();
+  // }
+
+  // @override
+  // void onButtonPressed(String id) {
+  //   _cameraController.destroyCamera();
+  //   log('onButtonPressed >> $id -- $updateCount');
+  // }
 
   @override
-  Future<void> onEvent(DateTime timestamp, SendPort? sendPort) async {}
+  void onRepeatEvent(DateTime timestamp) {}
 
   @override
-  Future<void> onDestroy(DateTime timestamp, SendPort? sendPort) async {
+  Future<void> onDestroy(DateTime timestamp) async {
     await FlutterForegroundTask.clearAllData();
   }
 
   @override
-  void onButtonPressed(String id) {
-    _cameraController.destroyCamera();
-    log('onButtonPressed >> $id -- $updateCount');
+  Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
+    initCamera();
   }
 }
