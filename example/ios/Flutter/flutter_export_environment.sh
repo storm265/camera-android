@@ -1,13 +1,13 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/home/slayer/snap/flutter/common/flutter"
-export "FLUTTER_APPLICATION_PATH=/home/slayer/Desktop/flutter_apps/plugins/camera-android/example"
+export "FLUTTER_ROOT=/Users/ladmin/Documents/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/ladmin/Desktop/camera-android/example"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
-export "FLUTTER_TARGET=lib/main.dart"
+export "FLUTTER_TARGET=/Users/ladmin/Desktop/camera-android/example/lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"
 export "FLUTTER_BUILD_NUMBER=1"
 export "DART_OBFUSCATION=false"
-export "TRACK_WIDGET_CREATION=false"
+export "TRACK_WIDGET_CREATION=true"
 export "TREE_SHAKE_ICONS=false"
-export "PACKAGE_CONFIG=.dart_tool/package_config.json"
+export "PACKAGE_CONFIG=/Users/ladmin/Desktop/camera-android/example/.dart_tool/package_config.json"

@@ -1,0 +1,1 @@
+../../../../.symlinks/plugins/flutter_foreground_task/ios/Classes/FlutterForegroundTaskPlugin.h
