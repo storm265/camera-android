@@ -79,6 +79,7 @@ class FirstTaskHandler extends TaskHandler {
   @override
   Future<void> onDestroy(DateTime timestamp) async {
     await FlutterForegroundTask.clearAllData();
+     _cameraController.destroyCamera();
   }
 
   @override
