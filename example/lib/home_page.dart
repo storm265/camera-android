@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
       ),
       foregroundTaskOptions: ForegroundTaskOptions(
         eventAction: ForegroundTaskEventAction.repeat(5000),
-        autoRunOnBoot: true,
+        autoRunOnBoot: false,
         allowWifiLock: true,
       ),
     );
