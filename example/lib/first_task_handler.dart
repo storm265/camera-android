@@ -12,22 +12,22 @@ class FirstTaskHandler extends TaskHandler {
   late CameraDescription description;
   late CameraController _cameraController;
 
-  void checkIfCameraInUse() {
-    cameraChecker = Timer.periodic(const Duration(seconds: 7), (_timer) async {
-      final lastTimeInUse =
-          DateTime.now().difference(currentUseTime).abs().inSeconds;
-      if (lastTimeInUse > 4 && !alreadyChecking) {
-        alreadyChecking = true;
-        initCamera();
-        _timer.cancel();
-        await Future.delayed(const Duration(seconds: 10));
-        initCamera();
-      }
-      log("Last time in use: $lastTimeInUse");
-    });
-  }
+  // void checkIfCameraInUse() {
+  //   cameraChecker = Timer.periodic(const Duration(seconds: 7), (_timer) async {
+  //     final lastTimeInUse =
+  //         DateTime.now().difference(currentUseTime).abs().inSeconds;
+  //     if (lastTimeInUse > 4 && !alreadyChecking) {
+  //       alreadyChecking = true;
+  //   await    initCamera();
+  //       _timer.cancel();
+  //       await Future.delayed(const Duration(seconds: 10));
+  //   await    initCamera();
+  //     }
+  //     log("Last time in use: $lastTimeInUse");
+  //   });
+  // }
 
-  void initCamera() async {
+  Future<void> initCamera() async {
     description = await availableCameras().then(
       (cameras) => cameras.firstWhere(
         (camera) => camera.lensDirection == CameraLensDirection.front,
@@ -39,14 +39,14 @@ class FirstTaskHandler extends TaskHandler {
       enableAudio: false,
     );
     await _cameraController.initialize();
-    await Future.delayed(const Duration(milliseconds: 500));
+
     _cameraController.startImageStream((img) async {
       currentUseTime = DateTime.now();
       log("Image captures: ${img.width} x ${img.height}");
     });
-    Timer.periodic(const Duration(seconds: 5), (timer) async {
-      log('Is Camera Avaialble: ${await _cameraController.isCameraAvailable()}');
-    });
+    // Timer.periodic(const Duration(seconds: 5), (timer) async {
+    //   log('Is Camera Avaialble: ${await _cameraController.isCameraAvailable()}');
+    // });
   }
 
   // @override
@@ -79,11 +79,11 @@ class FirstTaskHandler extends TaskHandler {
   @override
   Future<void> onDestroy(DateTime timestamp) async {
     await FlutterForegroundTask.clearAllData();
-     _cameraController.destroyCamera();
+    _cameraController.destroyCamera();
   }
 
   @override
   Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
-    initCamera();
+    await initCamera();
   }
 }
